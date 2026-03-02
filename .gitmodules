@@ -1,0 +1,15 @@
+[submodule "core"]
+	path = core
+	url = ../core.git
+[submodule "externs"]
+	path = externs
+	url = ../externs.git
+[submodule "math"]
+	path = math
+	url = ../math.git
+[submodule "motion"]
+	path = motion
+	url = ../motion.git
+[submodule "vision"]
+	path = vision
+	url = ../vision.git

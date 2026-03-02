@@ -1,0 +1,12 @@
+# Folder
+*build
+*bin
+*install
+/ref
+
+# VS Code
+/.vscode
+
+# Qt
+*.user
+*.autosave
