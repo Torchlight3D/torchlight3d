@@ -1,0 +1,47 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Discover available modules by globbing installed <Module>Config.cmake files.
+# This makes the top-level config completely module-agnostic.
+file(GLOB _tl_module_configs "${CMAKE_CURRENT_LIST_DIR}/*Config.cmake")
+set(_tl_available_components)
+foreach(_cfg IN LISTS _tl_module_configs)
+    get_filename_component(_cfg_name "${_cfg}" NAME)
+    # Skip the top-level TorchlightConfig.cmake itself
+    if(_cfg_name STREQUAL "TorchlightConfig.cmake")
+        continue()
+    endif()
+    string(REGEX REPLACE "Config\\.cmake$" "" _comp_name "${_cfg_name}")
+    list(APPEND _tl_available_components ${_comp_name})
+endforeach()
+
+# If no components were requested, load all available modules.
+if(NOT Torchlight_FIND_COMPONENTS)
+    set(Torchlight_FIND_COMPONENTS ${_tl_available_components})
+endif()
+
+foreach(_comp IN LISTS Torchlight_FIND_COMPONENTS)
+    if(NOT _comp IN_LIST _tl_available_components)
+        set(Torchlight_FOUND FALSE)
+        set(Torchlight_NOT_FOUND_MESSAGE "Unknown Torchlight component: ${_comp}")
+        return()
+    endif()
+
+    if(NOT TARGET @TORCHLIGHT_NAMESPACE@::${_comp})
+        include("${CMAKE_CURRENT_LIST_DIR}/${_comp}Config.cmake"
+                OPTIONAL RESULT_VARIABLE _tl_${_comp}_config)
+        if(NOT _tl_${_comp}_config)
+            set(Torchlight_${_comp}_FOUND FALSE)
+            if(Torchlight_FIND_REQUIRED_${_comp})
+                message(FATAL_ERROR "Required Torchlight component '${_comp}' was not found.")
+            endif()
+        else()
+            set(Torchlight_${_comp}_FOUND TRUE)
+        endif()
+    else()
+        set(Torchlight_${_comp}_FOUND TRUE)
+    endif()
+endforeach()
+
+check_required_components(Torchlight)

@@ -1,5 +1,4 @@
-Torchlight3d
-===
+# Torchlight3d
 
 ## Motivation
 
@@ -26,9 +25,49 @@ Our motivation for developing this new calibration library is to address these g
 
 ## Build
 
-A complete 3rd-party libraries list can be found [here](dependencies.md).
+A complete 3rd-party libraries list can be found [here](DEPENDENCIES.md).
 
 Most of the dependencies are the same on both Windows and Linux, not tested on macOS.
+
+### Windows
+
+Prereqs:
+- Visual Studio 2022 (v18) with MSVC
+- CMake 3.24+ and Ninja (installed with VS)
+- vcpkg (set `VCPKG_ROOT` to your vcpkg root)
+
+Build, install, and test from a Developer PowerShell for VS 2022:
+
+```powershell
+$env:VCPKG_ROOT = "C:\Program Files\Microsoft Visual Studio\18\Community\VC\vcpkg"
+cmake --preset windows-release
+cmake --build --preset windows-release --parallel
+cmake --build --preset windows-release --target install
+ctest --preset windows-release
+```
+
+Notes:
+- The install output goes to `install/` at the repo root (see CMake preset).
+- A small number of tests are data-dependent and will be skipped if the test data is not present.
+
+### Using the library (CMake)
+
+Point CMake to the install prefix and link the components you need:
+
+```cmake
+# Example: adjust the install prefix to your local path
+list(APPEND CMAKE_PREFIX_PATH "E:/path/to/torchlight3d/install")
+
+find_package(Torchlight CONFIG REQUIRED COMPONENTS Core Math Motion Vision)
+target_link_libraries(my_app PRIVATE tl::Core tl::Math tl::Motion tl::Vision)
+```
+
+Headers are installed under module include directories like `tCore/`, `tMath/`, etc.
+For example:
+
+```cpp
+#include <tCore/Bimap>
+```
 
 ## RoadMap
 
@@ -49,8 +88,8 @@ Most of the dependencies are the same on both Windows and Linux, not tested on m
 
 ### Software
 
-+ [ ] Move application and Qt related stuffs out of `modules`
-+ [ ] Better CMake, library export and package
++ [x] Move application and Qt related stuffs out of `modules`
++ [x] Better CMake, library export and package
 + [ ] Documentations
 + [ ] Add Python binding (pybind11)
 + [ ] Add 3D visualization module (Complete the old Qt-based one, or start over with imgui?)

@@ -1,0 +1,193 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 24,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "vcpkg-base",
+            "hidden": true,
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "CMAKE_CXX_STANDARD": "20",
+                "CMAKE_CXX_EXTENSIONS": "OFF",
+                "BUILD_SHARED_LIBS": "ON",
+                "TORCHLIGHT_BUILD_TESTS": "ON"
+            }
+        },
+        {
+            "name": "windows-release",
+            "displayName": "Windows x64 Release",
+            "inherits": "vcpkg-base",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/release",
+            "installDir": "${sourceDir}/install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "windows-debug",
+            "displayName": "Windows x64 Debug",
+            "inherits": "vcpkg-base",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/debug",
+            "installDir": "${sourceDir}/install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "linux-release",
+            "displayName": "Linux x64 Release",
+            "inherits": "vcpkg-base",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/release",
+            "installDir": "${sourceDir}/install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "VCPKG_TARGET_TRIPLET": "x64-linux"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "linux-debug",
+            "displayName": "Linux x64 Debug",
+            "inherits": "vcpkg-base",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/debug",
+            "installDir": "${sourceDir}/install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "VCPKG_TARGET_TRIPLET": "x64-linux"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "macos-release",
+            "displayName": "macOS Release",
+            "inherits": "vcpkg-base",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/release",
+            "installDir": "${sourceDir}/install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "VCPKG_TARGET_TRIPLET": "arm64-osx"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        },
+        {
+            "name": "macos-debug",
+            "displayName": "macOS Debug",
+            "inherits": "vcpkg-base",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/debug",
+            "installDir": "${sourceDir}/install",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "VCPKG_TARGET_TRIPLET": "arm64-osx"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-release",
+            "configurePreset": "windows-release"
+        },
+        {
+            "name": "windows-debug",
+            "configurePreset": "windows-debug"
+        },
+        {
+            "name": "linux-release",
+            "configurePreset": "linux-release"
+        },
+        {
+            "name": "linux-debug",
+            "configurePreset": "linux-debug"
+        },
+        {
+            "name": "macos-release",
+            "configurePreset": "macos-release"
+        },
+        {
+            "name": "macos-debug",
+            "configurePreset": "macos-debug"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "windows-release",
+            "configurePreset": "windows-release",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "windows-debug",
+            "configurePreset": "windows-debug",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "linux-release",
+            "configurePreset": "linux-release",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "linux-debug",
+            "configurePreset": "linux-debug",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "macos-release",
+            "configurePreset": "macos-release",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "macos-debug",
+            "configurePreset": "macos-debug",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}
