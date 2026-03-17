@@ -35,9 +35,12 @@ function(torchlight_add_test target_name)
         
         # Add module binary directories
         list(APPEND _runtime_paths
+            "${CMAKE_BINARY_DIR}/calibration"
+            "${CMAKE_BINARY_DIR}/camera"
             "${CMAKE_BINARY_DIR}/core"
             "${CMAKE_BINARY_DIR}/math"
             "${CMAKE_BINARY_DIR}/motion"
+            "${CMAKE_BINARY_DIR}/mvs"
             "${CMAKE_BINARY_DIR}/vision"
         )
         
@@ -73,19 +76,27 @@ function(torchlight_add_test target_name)
             "PATH=${_env_path_escaped}"
         )
 
-        cmake_policy(PUSH)
-        cmake_policy(SET CMP0178 NEW)
+        if(POLICY CMP0178)
+            cmake_policy(PUSH)
+            cmake_policy(SET CMP0178 NEW)
+        endif()
         gtest_discover_tests(${target_name}
             DISCOVERY_TIMEOUT 30
         )
-        cmake_policy(POP)
+        if(POLICY CMP0178)
+            cmake_policy(POP)
+        endif()
     else()
         # GoogleTest discovery without custom environment
-        cmake_policy(PUSH)
-        cmake_policy(SET CMP0178 NEW)
+        if(POLICY CMP0178)
+            cmake_policy(PUSH)
+            cmake_policy(SET CMP0178 NEW)
+        endif()
         gtest_discover_tests(${target_name}
             DISCOVERY_TIMEOUT 30
         )
-        cmake_policy(POP)
+        if(POLICY CMP0178)
+            cmake_policy(POP)
+        endif()
     endif()
 endfunction()

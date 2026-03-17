@@ -16,6 +16,8 @@
         },
         "gtest",
         "opencv4",
-        "sophus"
+        "sophus",
+        "spectra",
+        "yaml-cpp"
     ]
 }

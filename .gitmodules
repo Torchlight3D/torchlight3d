@@ -13,3 +13,12 @@
 [submodule "vision"]
 	path = vision
 	url = ../vision.git
+[submodule "camera"]
+	path = camera
+	url = ../camera.git
+[submodule "mvs"]
+	path = mvs
+	url = ../mvs.git
+[submodule "calibration"]
+	path = calibration
+	url = ../calibration.git
